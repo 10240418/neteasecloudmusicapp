@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted,ref} from "vue";
-import {getRemMusicList} from "../../request/api/home.js";
+import {getRemMusicList} from "@/request/api/home.js";
 import router from "@/router/index.js";
 import {useItemMusicDetail} from "@/stores/item.js";
 const musicList = ref([]);
@@ -8,6 +8,8 @@ onMounted(() => {
     getRemMusicList().then(res => {
         musicList.value = res.data.result;
         // console.log(musicList.value);
+        useItemMusicDetail().playlist = musicList.value;
+        // console.log(useItemMusicDetail().playlist);
     });
 });
 function changePlayCount(playCount){

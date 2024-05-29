@@ -13,7 +13,7 @@ export function getRemMusicList(){
     })
 }
 
-export function getAllMusicList(id){
+export function getMusicListDetali(id){
      return service({
          method:"GET",
             url:"/playlist/detail?id="+id,

@@ -1,26 +1,16 @@
 <script setup>
 import {onMounted,ref} from "vue";
-import {useItemMusicDetail} from "@/stores/counter.js";
-
-const props = defineProps({
-    musicDetail: {
-        type: Object,
-        default: () => ({coverImgUrl: ""})
-    }
-});
-const musicDetailstore  = useItemMusicDetail().idList;
-onMounted(() => {
-    musicDetail.value = props.musicDetail;
-});
-const musicDetail = ref([]);
-// Optional logging for debugging
+import {useItemMusicDetail} from "@/stores/item.js";
+const musicDetail = ref(); // 确保默认值是一个对象
+musicDetail.value = useItemMusicDetail().playlist;
 console.log(musicDetail.value);
+
 </script>
 
 <template>
     <div class="musicTop">
         <div class="bgContainer">
-            <img v-if="props.musicDetail?.value?.coverImgUrl" :src="props.musicDetail?.value?.coverImgUrl" alt="" class="bgImg">
+            <img v-if="musicDetail.value.picUrl" :src="musicDetail.value.picUrl" alt="" class="bgImg">
             <img v-else src="https://p1.music.126.net/s3jv-5uRZW0i-jcG9skZpA==/1099511" alt="">
         </div>
 
@@ -35,7 +25,7 @@ console.log(musicDetail.value);
     </div>
     <div class="itemContent">
         <div class="imgSmall">
-            <img v-if="props.musicDetail?.value?.coverImgUrl" :src="props.musicDetail?.value?.coverImgUrl" alt="">
+            <img v-if="musicDetail.value.picUrl" :src="musicDetail.value.picUrl" alt="" class="bgImg">
             <img v-else src="https://p1.music.126.net/s3jv-5uRZW0i-jcG9skZpA==/1099511" alt="">
         </div>
         <div>
@@ -46,12 +36,12 @@ console.log(musicDetail.value);
     <div class="itemBottom">
         <div>
             <svg t="1716944418541" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3032" width="200" height="200"><path d="M510.9248 977.4848h-465.92v-465.92c0-256.896 209.024-465.92 465.92-465.92 256.9216 0 465.92 209.024 465.92 465.92s-208.9984 465.92-465.92 465.92z m-404.48-61.44h404.48c223.0272 0 404.48-181.4528 404.48-404.48s-181.4528-404.48-404.48-404.48-404.48 181.4528-404.48 404.48v404.48z" fill="" p-id="3033"></path><path d="M719.2064 482.7904H305.9456c-16.9728 0-30.72-13.7472-30.72-30.72s13.7472-30.72 30.72-30.72h413.2608c16.9728 0 30.72 13.7472 30.72 30.72s-13.7728 30.72-30.72 30.72zM561.792 686.5152h-253.9008c-16.9728 0-30.72-13.7472-30.72-30.72s13.7472-30.72 30.72-30.72h253.9008c16.9728 0 30.72 13.7472 30.72 30.72s-13.7728 30.72-30.72 30.72z" fill="" p-id="3034"></path></svg>
-            <span>{{musicDetail.value.commentCount}}</span>
+<!--            <span>{{musicDetail.value.commentCount}}</span>-->
         </div>
 
         <div>
             <svg t="1716944509421" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4039" width="200" height="200"><path d="M729.421868 592.96194c-48.383964 0-90.440825 26.126031-113.861234 64.768119L394.33309 537.957185c17.308201-22.50762 28.02017-50.344618 28.02017-80.886215 0-25.245987-7.436366-48.599881-19.651572-68.744687l209.729675-123.097596c22.592554 41.771359 66.267263 70.521147 116.990504 70.521147 73.617671 0 133.512806-59.878762 133.512806-133.512806S803.039539 68.724221 729.421868 68.724221 595.910085 128.60196 595.910085 202.236004c0 10.903328 1.682315 21.366633 4.15974 31.519878L382.027833 361.727485c-24.084535-23.533996-56.92857-38.169321-93.187379-38.169321-73.617671 0-133.512806 59.878762-133.512806 133.512806s59.895135 133.512806 133.512806 133.512806c30.53034 0 58.359152-10.707876 80.878029-28.016077l232.395908 125.803217c-3.651157 12.157901-6.205329 24.77322-6.205329 38.104853 0 73.634044 59.895135 133.512806 133.512806 133.512806s133.512806-59.878762 133.512806-133.512806S803.039539 592.96194 729.421868 592.96194zM729.421868 135.479601c36.81651 0 66.756403 29.955242 66.756403 66.756403s-29.938869 66.756403-66.756403 66.756403c-36.81651 0-66.756403-29.955242-66.756403-66.756403S692.605358 135.479601 729.421868 135.479601zM288.840454 523.82635c-36.81651 0-66.756403-29.955242-66.756403-66.756403s29.938869-66.756403 66.756403-66.756403 66.756403 29.955242 66.756403 66.756403S325.657988 523.82635 288.840454 523.82635zM729.421868 793.231149c-36.81651 0-66.756403-29.955242-66.756403-66.756403 0-36.801161 29.938869-66.756403 66.756403-66.756403 36.81651 0 66.756403 29.955242 66.756403 66.756403C796.178271 763.274884 766.239402 793.231149 729.421868 793.231149z" fill="" p-id="4040"></path></svg>
-            <span>{{musicDetail.value.shareCount}}</span>
+<!--            <span>{{musicDetail.value.shareCount}}</span>-->
         </div>
 
         <div>

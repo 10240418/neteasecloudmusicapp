@@ -12,8 +12,9 @@ export const useCounterStore = defineStore('counter', () => {
 })
 
 export const useItemMusicDetail =defineStore('itemMusicId',()=>{
-const idList = ref([]);
-const idState = ref();
-const idListNew = computed(()=>{idList.value})
-return{idList,idListNew,idState}
+ const idList = ref([]);
+ const idState = ref();
+ const idListNew = computed(()=>{idList.value})
+ const playlist =ref([])
+ return{idList,idListNew,idState,playlist}
 })
