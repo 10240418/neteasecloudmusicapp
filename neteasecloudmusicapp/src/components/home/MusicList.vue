@@ -2,6 +2,7 @@
 import {onMounted,ref} from "vue";
 import {getRemMusicList} from "../../request/api/home.js";
 import router from "@/router/index.js";
+import {useItemMusicDetail} from "@/stores/item.js";
 const musicList = ref([]);
 onMounted(() => {
     getRemMusicList().then(res => {
@@ -23,6 +24,10 @@ function changePlayCount(playCount){
 function navigateToMusic(id){
     // console.log(id);
     router.push({path:'/ItemMusic',query:{id:id}});
+    const itemDetailStore = useItemMusicDetail();
+    //设置我的当前歌单id
+    itemDetailStore.idState = id;
+    // console.log(useItemMusicDetail().idState);
 }
 </script>
 

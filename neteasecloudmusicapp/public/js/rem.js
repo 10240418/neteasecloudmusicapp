@@ -9,7 +9,7 @@ function remSize(){
     if(deviceWidth <= 320 ){
         deviceWidth = 320;
     }
-    console.log(deviceWidth);
+    // console.log(deviceWidth);
     document.documentElement.style.fontSize = (deviceWidth / 75) + 'px';
     //设置字体大小
     document.documentElement.style.fontSize = (deviceWidth / 75) + 'px';
