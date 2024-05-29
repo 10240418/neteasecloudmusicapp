@@ -1,11 +1,11 @@
 <script setup>
 import axios from 'axios';
 import {onMounted,reactive} from "vue";
-import {getBanner} from "../request/api/home.js";
+import {getBanner} from "../../request/api/home.js";
 
 onMounted(async () => {
     const res = await getBanner();
-    console.log(res.data);
+    // console.log(res.data);
     state.images = res.data.banners.map(item => item.pic);
 });
 const state = reactive({

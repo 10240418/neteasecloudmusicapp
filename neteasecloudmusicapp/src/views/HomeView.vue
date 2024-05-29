@@ -1,8 +1,8 @@
 <script setup>
-import TopNav from "@/components/TopNav.vue";
-import SwiperTop from "@/components/SwpierTop.vue";
-import IconList from "@/components/IconList.vue";
-import MusicList from "@/components/MusicList.vue";
+import TopNav from "@/components/home/TopNav.vue";
+import SwiperTop from "@/components/home/SwpierTop.vue";
+import IconList from "@/components/home/IconList.vue";
+import MusicList from "@/components/home/MusicList.vue";
 </script>
 
 <template>

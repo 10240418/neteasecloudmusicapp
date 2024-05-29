@@ -12,3 +12,10 @@ export function getRemMusicList(){
         url:"/personalized?limit=6",
     })
 }
+
+export function getAllMusicList(id){
+     return service({
+         method:"GET",
+            url:"/playlist/detail?id="+id,
+     })
+}

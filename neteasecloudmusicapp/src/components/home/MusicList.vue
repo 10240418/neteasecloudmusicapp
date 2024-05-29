@@ -1,11 +1,12 @@
 <script setup>
 import {onMounted,ref} from "vue";
-import {getRemMusicList} from "../request/api/home.js";
+import {getRemMusicList} from "../../request/api/home.js";
+import router from "@/router/index.js";
 const musicList = ref([]);
 onMounted(() => {
     getRemMusicList().then(res => {
         musicList.value = res.data.result;
-        console.log(musicList.value);
+        // console.log(musicList.value);
     });
 });
 function changePlayCount(playCount){
@@ -19,6 +20,10 @@ function changePlayCount(playCount){
         return playCount;
     }
 }
+function navigateToMusic(id){
+    // console.log(id);
+    router.push({path:'/ItemMusic',query:{id:id}});
+}
 </script>
 
 <template>
@@ -29,7 +34,9 @@ function changePlayCount(playCount){
     </div>
     <div class="musicRem">
         <van-swipe :loop="false" :width="200" :height="250" class="my-swipe" :show-indicators="false">
-            <van-swipe-item v-for="item in musicList" :key="item" class="item-swipe">
+            <van-swipe-item v-for="item in musicList" :key="item" class="item-swipe"  @click="navigateToMusic(item.id)">
+<!--                <router-link :to="{path:'/ItemMusic',query:{id:item.id}}"></router-link>-->
+
                 <img :src="item.picUrl" alt="">
                 <span class="playCount">
                    <svg t="1716731137329" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12972" width="200" height="200"><path d="M683.11867466 511.93378743L305.13945048 286.673108V737.3202714L683.11867466 511.93378743zM222.13577976 882.78857422V141.21142578l622.39510714 370.72236165L222.13577976 882.78857422z" p-id="12973" fill="#ffffff"></path></svg>
