@@ -7,8 +7,8 @@ const musicList = ref([]);
 onMounted(() => {
     getRemMusicList().then(res => {
         musicList.value = res.data.result;
-        // console.log(musicList.value);
-        useItemMusicDetail().playlist = musicList.value;
+        console.log(musicList.value);
+        // useItemMusicDetail().playlist = musicList.value;
         // console.log(useItemMusicDetail().playlist);
     });
 });
@@ -23,12 +23,12 @@ function changePlayCount(playCount){
         return playCount;
     }
 }
-function navigateToMusic(id){
+function navigateToMusic(item){
     // console.log(id);
-    router.push({path:'/ItemMusic',query:{id:id}});
+    router.push({path:'/ItemMusic',query:{id:item.id}});
     const itemDetailStore = useItemMusicDetail();
     //设置我的当前歌单id
-    itemDetailStore.idState = id;
+    itemDetailStore.playlist = item;
     // console.log(useItemMusicDetail().idState);
 }
 </script>
@@ -41,7 +41,7 @@ function navigateToMusic(id){
     </div>
     <div class="musicRem">
         <van-swipe :loop="false" :width="200" :height="250" class="my-swipe" :show-indicators="false">
-            <van-swipe-item v-for="item in musicList" :key="item" class="item-swipe"  @click="navigateToMusic(item.id)">
+            <van-swipe-item v-for="item in musicList" :key="item" class="item-swipe"  @click="navigateToMusic(item)">
 <!--                <router-link :to="{path:'/ItemMusic',query:{id:item.id}}"></router-link>-->
 
                 <img :src="item.picUrl" alt="">

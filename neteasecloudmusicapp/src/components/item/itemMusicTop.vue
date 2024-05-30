@@ -1,16 +1,31 @@
 <script setup>
-import {onMounted,ref} from "vue";
+import {onMounted,ref,computed} from "vue";
 import {useItemMusicDetail} from "@/stores/item.js";
+import {getMusicListDetali} from "@/request/api/home.js";
 const musicDetail = ref(); // 确保默认值是一个对象
 musicDetail.value = useItemMusicDetail().playlist;
-console.log(musicDetail.value);
+// console.log(musicDetail.value);
 
+getMusicListDetali(musicDetail.value.id).then(res => {
+     musicDetailPro.value = res.data.playlist;
+    console.log(musicDetailPro.value);
+});
+const musicDetailPro = ref({});
+const backgroundUrl = computed(() => {
+    return musicDetailPro.value.creator ? musicDetailPro.value.creator.backgroundUrl : 'http://p1.music.126.net/v-v7T9vymDjfBA4_sjzUyg==';
+});
+const nickname = computed(()=>{
+    return musicDetailPro.value.creator ? musicDetailPro.value.creator.nickname : '遇见已是上上签';
+})
+const message = computed(()=>{
+    return musicDetailPro.value ? musicDetailPro.value.decription : '你是无意穿堂风,却偏偏引山洪'
+})
 </script>
 
 <template>
     <div class="musicTop">
         <div class="bgContainer">
-            <img v-if="musicDetail.value.picUrl" :src="musicDetail.value.picUrl" alt="" class="bgImg">
+            <img v-if="musicDetail.picUrl" :src="musicDetail.picUrl" alt="" class="bgImg">
             <img v-else src="https://p1.music.126.net/s3jv-5uRZW0i-jcG9skZpA==/1099511" alt="">
         </div>
 
@@ -25,23 +40,33 @@ console.log(musicDetail.value);
     </div>
     <div class="itemContent">
         <div class="imgSmall">
-            <img v-if="musicDetail.value.picUrl" :src="musicDetail.value.picUrl" alt="" class="bgImg">
+            <img v-if="musicDetail.picUrl" :src="musicDetail.picUrl" alt="" class="bgImg">
             <img v-else src="https://p1.music.126.net/s3jv-5uRZW0i-jcG9skZpA==/1099511" alt="">
         </div>
-        <div>
-<!--            <span class="nameText">{{props.musicDetail.value.name}}</span>-->
-<!--            <span class="descriptionText">{{props.musicDetail.value.description}}</span>-->
+        <div class="text-style">
+            <span class="nameText">{{musicDetail.name}}</span>
+            <span class="descriptionText">{{musicDetailPro.description}}</span>
+            <div class="creator-content">
+                <img :src="backgroundUrl" alt="">
+                <div>
+                    <span>{{nickname}}</span>
+                    <svg t="1717071567571" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2308" width="200" height="200"><path d="M761.6 489.6l-432-435.2c-9.6-9.6-25.6-9.6-35.2 0-9.6 9.6-9.6 25.6 0 35.2l416 416-416 425.6c-9.6 9.6-9.6 25.6 0 35.2s25.6 9.6 35.2 0l432-441.6C771.2 515.2 771.2 499.2 761.6 489.6z" p-id="2309" fill="#dddddd"></path></svg>
+                </div>
+
+            </div>
+            <div class="message"></div>
         </div>
+
     </div>
     <div class="itemBottom">
         <div>
             <svg t="1716944418541" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3032" width="200" height="200"><path d="M510.9248 977.4848h-465.92v-465.92c0-256.896 209.024-465.92 465.92-465.92 256.9216 0 465.92 209.024 465.92 465.92s-208.9984 465.92-465.92 465.92z m-404.48-61.44h404.48c223.0272 0 404.48-181.4528 404.48-404.48s-181.4528-404.48-404.48-404.48-404.48 181.4528-404.48 404.48v404.48z" fill="" p-id="3033"></path><path d="M719.2064 482.7904H305.9456c-16.9728 0-30.72-13.7472-30.72-30.72s13.7472-30.72 30.72-30.72h413.2608c16.9728 0 30.72 13.7472 30.72 30.72s-13.7728 30.72-30.72 30.72zM561.792 686.5152h-253.9008c-16.9728 0-30.72-13.7472-30.72-30.72s13.7472-30.72 30.72-30.72h253.9008c16.9728 0 30.72 13.7472 30.72 30.72s-13.7728 30.72-30.72 30.72z" fill="" p-id="3034"></path></svg>
-<!--            <span>{{musicDetail.value.commentCount}}</span>-->
+            <span>{{musicDetailPro.commentCount}}</span>
         </div>
 
         <div>
             <svg t="1716944509421" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4039" width="200" height="200"><path d="M729.421868 592.96194c-48.383964 0-90.440825 26.126031-113.861234 64.768119L394.33309 537.957185c17.308201-22.50762 28.02017-50.344618 28.02017-80.886215 0-25.245987-7.436366-48.599881-19.651572-68.744687l209.729675-123.097596c22.592554 41.771359 66.267263 70.521147 116.990504 70.521147 73.617671 0 133.512806-59.878762 133.512806-133.512806S803.039539 68.724221 729.421868 68.724221 595.910085 128.60196 595.910085 202.236004c0 10.903328 1.682315 21.366633 4.15974 31.519878L382.027833 361.727485c-24.084535-23.533996-56.92857-38.169321-93.187379-38.169321-73.617671 0-133.512806 59.878762-133.512806 133.512806s59.895135 133.512806 133.512806 133.512806c30.53034 0 58.359152-10.707876 80.878029-28.016077l232.395908 125.803217c-3.651157 12.157901-6.205329 24.77322-6.205329 38.104853 0 73.634044 59.895135 133.512806 133.512806 133.512806s133.512806-59.878762 133.512806-133.512806S803.039539 592.96194 729.421868 592.96194zM729.421868 135.479601c36.81651 0 66.756403 29.955242 66.756403 66.756403s-29.938869 66.756403-66.756403 66.756403c-36.81651 0-66.756403-29.955242-66.756403-66.756403S692.605358 135.479601 729.421868 135.479601zM288.840454 523.82635c-36.81651 0-66.756403-29.955242-66.756403-66.756403s29.938869-66.756403 66.756403-66.756403 66.756403 29.955242 66.756403 66.756403S325.657988 523.82635 288.840454 523.82635zM729.421868 793.231149c-36.81651 0-66.756403-29.955242-66.756403-66.756403 0-36.801161 29.938869-66.756403 66.756403-66.756403 36.81651 0 66.756403 29.955242 66.756403 66.756403C796.178271 763.274884 766.239402 793.231149 729.421868 793.231149z" fill="" p-id="4040"></path></svg>
-<!--            <span>{{musicDetail.value.shareCount}}</span>-->
+            <span>{{musicDetailPro.shareCount}}</span>
         </div>
 
         <div>
@@ -62,7 +87,7 @@ console.log(musicDetail.value);
     justify-content: space-between;
     padding: 0.5rem; 
     width: 100%;
-    background: #000;
+    /*background: #000;*/
     height: 40%;
     box-sizing: border-box;
     position: relative;
@@ -119,29 +144,97 @@ span {
 
 .itemContent {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: row;
+
     padding: 0.5rem;
     width: 100%;
     height: 60%;
     box-sizing: border-box;
     margin-top: 3rem;
     border-radius: 5px;
+
     .imgSmall {
-        width: 25%;
+        width:34%;
         height: 100%;
 
         img {
             width: 100%;
             height: 100%;
+            border-radius: 1rem;
         }
     }
     .nameText{
         /*color: white;*/
-        font-size: 12px;
+        font-size: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* 限制在两行 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal; /* 或者使用 pre-line, 取决于是否需要保留空白符 */
+        height: 3em; /* 两行文字的最大高度，需要根据字体大小调整 */
+        color: #eeeeee;
     }
-    span{
+    .descriptionText{
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* 限制在两行 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal; /* 或者使用 pre-line, 取决于是否需要保留空白符 */
+        height: 3em; /* 两行文字的最大高度，需要根据字体大小调整 */
+        font-size: 10px;
+        /*margin-top: 1rem;*/
         color: white;
+
+    }
+    .text-style{
+         display: flex;
+         flex-direction: column;
+         justify-content: start;
+         align-items: start;
+         width: 60%;
+         height: 100%;
+        gap: 3px;
+        .creator-content{
+            display: flex;
+            justify-items: center;
+            align-items: center;
+            img{
+                height: 6rem;
+                width: 6rem;
+                margin-left: 2rem;
+                border-radius: 100%;
+            }
+
+            div{
+                display: flex;
+                flex-direction: row;
+                gap: 4px;
+                align-items: center;
+                span{
+                    color: #ddd;
+                    font-size: 10px;
+                }
+                svg{
+                    height: 10px;
+                    width: 20px;
+                }
+            }
+            .message{
+                display: -webkit-box;
+                -webkit-line-clamp: 2; /* 限制在两行 */
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: normal; /* 或者使用 pre-line, 取决于是否需要保留空白符 */
+                height: 3em; /* 两行文字的最大高度，需要根据字体大小调整 */
+                font-size: 10px;
+                /*margin-top: 1rem;*/
+                color: white;
+            }
+        }
+
     }
 }
 .itemBottom{
@@ -149,22 +242,28 @@ span {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
-    gap:9.5rem;
+    align-items: center;
+    gap:9.8rem;
     div{
         display: flex;
         flex-direction: column;
         justify-items: center;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.544rem;
         :hover{
             fill: #eee;
             cursor: pointer;
             transition-duration: 0.5s;
             /*filter: blur(1px);*/
         }
+        span{
+            color: white;
+            font-size: 12px;
+            margin: 0;
+        }
     }
     svg{
-        font-size: 3rem;
+        font-size: 2.8rem;
 
     }
 }

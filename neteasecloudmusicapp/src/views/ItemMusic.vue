@@ -34,7 +34,7 @@ const musicDetail = reactive({});
     flex-direction: column;
     width: 100%;
     height: 100%;
-    background: #000;
+    /*background: #000;*/
     .itemTop {
         width: 100%;
         height: 40%;
