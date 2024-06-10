@@ -1,30 +1,54 @@
 <script setup>
 import {useRoute} from "vue-router";
 import {onBeforeMount} from "vue";
-// import {getAllMusicList} from "@/request/api/home.js";
+import {getMusicListDetail,getMusicList} from "@/request/api/home.js";
 import {ref,reactive } from "vue";
-import ItemMusicTop from "@/components/item/itemMusicTop.vue";
+import ItemMusicList from "../components/item/ItemMusicList.vue";
+import ItemMusicTop from "../components/item/ItemMusicTop.vue";
+import {useItemMusicDetail} from "@/stores/item.js";
+
+
+const itemState = reactive(
+    {
+        musicList: [],
+        listDetail: [],
+    }
+)
 onBeforeMount(() => {
-    // console.log(useRoute());
-    // let id = useRoute().query.id;
-    // console.log(id);
-    // getAllMusicList(id).then(res => {
-    //     musicDetail.value = res.data.playlist;
-    //     console.log(musicDetail.value);
-    // });
-    var viewportWidth = window.innerWidth;
-    // console.log(viewportWidth);
+    //这是歌单详情动态,介绍歌单的数据
+    let id = useRoute().query.id;
+    getMusicListDetail(id).then(res => {
+        itemState.listDetail = res.data.playlist;
+        // console.log(itemState.musicDetail);
+    });
+    //这是歌单的歌曲列表
+    getMusicList({id,limit:100,offset:0}).then(res => {
+        itemState.musicList = res.data.songs;
+        useItemMusicDetail().musiclist = res.data.songs;
+        // console.log(itemState.musicList);
+    });
+    //为了防止刷新页面数据丢失,将数据存储到piania里
+    useItemMusicDetail().playlist = itemState.listDetail;
+    useItemMusicDetail().subscribedCount = itemState.listDetail.subscribedCount;
+
+    // console.log('gedan');
+    // console.log(useItemMusicDetail().musiclist);
+    // console.log(useItemMusicDetail().playlist);
+
 });
-const musicList = ref([]);
-const musicDetail = reactive({});
 </script>
 
 <template>
 <div class="itemMusic">
     <div class="itemTop">
-        <itemMusic-top :musicDetail="musicDetail"></itemMusic-top>
+       <ItemMusicTop :musicDetail="itemState.listDetail"></ItemMusicTop>
     </div>
-    <div class="itemBottom"></div>
+    <div class="itemBottom">
+        <ItemMusicList
+            :musicList="itemState.musicList"
+            :subscribedCount="itemState.listDetail.subscribedCount">
+        </ItemMusicList>
+    </div>
 </div>
 </template>
 
@@ -43,6 +67,8 @@ const musicDetail = reactive({});
     .itemBottom {
         width: 100%;
         height: 60%;
+        background: #fff;
+        border-radius: 16px;
     }
 }
 </style>

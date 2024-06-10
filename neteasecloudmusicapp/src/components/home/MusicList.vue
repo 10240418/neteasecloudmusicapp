@@ -7,7 +7,7 @@ const musicList = ref([]);
 onMounted(() => {
     getRemMusicList().then(res => {
         musicList.value = res.data.result;
-        console.log(musicList.value);
+        // console.log(musicList.value);
         // useItemMusicDetail().playlist = musicList.value;
         // console.log(useItemMusicDetail().playlist);
     });
