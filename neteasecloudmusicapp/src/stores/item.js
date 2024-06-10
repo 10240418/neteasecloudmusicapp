@@ -1,15 +1,6 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
-  }
-
-  return { count, doubleCount, increment }
-})
 
 export const useItemMusicDetail =defineStore('itemMusicId',()=>{
     const musiclist =ref([])
@@ -17,3 +8,15 @@ export const useItemMusicDetail =defineStore('itemMusicId',()=>{
     const subscribedCount = ref();
  return{musiclist,playlist,subscribedCount}
 })
+
+//播放列表
+export const usePlayList = defineStore('playList',()=>{
+    //播放列表
+    const playList = ref([
+
+        
+    ])
+
+    return {playList}
+}
+)
